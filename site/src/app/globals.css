@@ -31,6 +31,13 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Modern UI (modern-ui.org) rainbow palette — raw HSL triplets */
+  --color-1: 0 100% 63%;
+  --color-2: 270 100% 63%;
+  --color-3: 210 100% 63%;
+  --color-4: 195 100% 63%;
+  --color-5: 90 100% 63%;
 }
 
 .dark {
@@ -60,6 +67,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  --color-1: 0 100% 63%;
+  --color-2: 270 100% 63%;
+  --color-3: 210 100% 63%;
+  --color-4: 195 100% 63%;
+  --color-5: 90 100% 63%;
 }
 
 @theme inline {
@@ -82,6 +95,12 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--primary-foreground);
+  --color-color-1: hsl(var(--color-1));
+  --color-color-2: hsl(var(--color-2));
+  --color-color-3: hsl(var(--color-3));
+  --color-color-4: hsl(var(--color-4));
+  --color-color-5: hsl(var(--color-5));
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -93,10 +112,76 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-    "Liberation Mono", monospace;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+
+  /* Modern UI animations */
+  --animate-gradient: gradient 8s linear infinite;
+  --animate-rainbow: rainbow var(--speed, 2s) infinite linear;
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-shine: shine 3s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-aurora: aurora 18s ease-in-out infinite alternate;
+
+  @keyframes gradient {
+    to {
+      background-position: var(--bg-size, 300%) 0;
+    }
+  }
+  @keyframes rainbow {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 200%;
+    }
+  }
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes shine {
+    0% {
+      background-position: 200% center;
+    }
+    100% {
+      background-position: -200% center;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  @keyframes aurora {
+    0% {
+      transform: translate3d(-6%, -4%, 0) scale(1);
+    }
+    100% {
+      transform: translate3d(6%, 4%, 0) scale(1.15);
+    }
+  }
 }
 
 @layer base {
@@ -105,6 +190,61 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Dot / grid backdrops used by the Modern UI landing sections */
+@utility bg-dot-pattern {
+  background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Keep anchored headings clear of the sticky header */
+  article :is(h2, h3, h4) {
+    scroll-margin-top: 5rem;
+    text-wrap: balance;
+  }
+  article p {
+    text-wrap: pretty;
+  }
+  /* Inline code inside documentation copy */
+  article :not(pre) > code {
+    @apply rounded-md border border-border/60 bg-muted px-1.5 py-0.5 font-mono text-[0.85em];
+  }
+  article ul:not([class]) {
+    @apply my-4 ml-6 list-disc space-y-2 text-muted-foreground marker:text-primary/60;
+  }
+  article ol:not([class]) {
+    @apply my-4 ml-6 list-decimal space-y-2 text-muted-foreground marker:text-primary/60;
+  }
+  article a:not([class]) {
+    @apply font-medium text-primary underline-offset-4 hover:underline;
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 25%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

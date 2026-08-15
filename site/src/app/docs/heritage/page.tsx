@@ -3,7 +3,11 @@ import { InfoIcon, TriangleAlertIcon } from "lucide-react";
 
 import { DocHeader } from "@/components/doc-page";
 import { CodeBlock } from "@/components/code-block";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/modern-ui/alert";
 
 export const metadata: Metadata = { title: "Héritage & polymorphisme" };
 
@@ -51,7 +55,7 @@ export default function Page() {
 }`}
       />
 
-      <Alert className="mt-2">
+      <Alert variant="info" className="mt-2">
         <InfoIcon />
         <AlertTitle>@Override</AlertTitle>
         <AlertDescription>
@@ -85,9 +89,10 @@ export default function Page() {
 }`}
       />
       <p className="leading-7 text-muted-foreground">
-        C&apos;est la <strong className="text-foreground">liaison dynamique</strong> :
-        la JVM choisit la méthode selon le type <em>réel</em> de l&apos;objet,
-        pas selon le type de la variable.
+        C&apos;est la{" "}
+        <strong className="text-foreground">liaison dynamique</strong> : la JVM
+        choisit la méthode selon le type <em>réel</em> de l&apos;objet, pas
+        selon le type de la variable.
       </p>
 
       <h2 className="mt-10 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight">
@@ -120,8 +125,8 @@ public class Base {
         <AlertTitle>Pas d&apos;héritage multiple</AlertTitle>
         <AlertDescription>
           Une classe Java ne peut hériter que d&apos;<strong>une seule</strong>{" "}
-          classe. Pour combiner plusieurs « contrats », utilisez les
-          interfaces — c&apos;est le sujet du chapitre suivant.
+          classe. Pour combiner plusieurs « contrats », utilisez les interfaces
+          — c&apos;est le sujet du chapitre suivant.
         </AlertDescription>
       </Alert>
     </article>

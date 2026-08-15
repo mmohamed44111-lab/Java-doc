@@ -4,13 +4,17 @@ import { ArrowRightIcon, InfoIcon } from "lucide-react";
 
 import { DocHeader } from "@/components/doc-page";
 import { CodeBlock } from "@/components/code-block";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/modern-ui/alert";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/modern-ui/card";
 import {
   Table,
   TableBody,
@@ -18,7 +22,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/doc-table";
 
 export const metadata: Metadata = { title: "Introduction" };
 
@@ -40,11 +44,11 @@ export default function Page() {
         <em>« Write once, run anywhere »</em> — écrivez votre code une fois,
         exécutez-le partout. Le code Java est compilé en{" "}
         <strong className="text-foreground">bytecode</strong>, exécuté par la{" "}
-        <strong className="text-foreground">JVM</strong> (Java Virtual
-        Machine), disponible sur presque toutes les plateformes.
+        <strong className="text-foreground">JVM</strong> (Java Virtual Machine),
+        disponible sur presque toutes les plateformes.
       </p>
 
-      <Alert className="mt-6">
+      <Alert variant="info" className="mt-6">
         <InfoIcon />
         <AlertTitle>Le saviez-vous ?</AlertTitle>
         <AlertDescription>
@@ -68,13 +72,15 @@ export default function Page() {
           <TableRow>
             <TableCell className="font-mono font-medium">JDK</TableCell>
             <TableCell className="whitespace-normal">
-              Java Development Kit — outils pour développer (compilateur javac, etc.)
+              Java Development Kit — outils pour développer (compilateur javac,
+              etc.)
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-mono font-medium">JRE</TableCell>
             <TableCell className="whitespace-normal">
-              Java Runtime Environment — environnement pour exécuter des programmes Java
+              Java Runtime Environment — environnement pour exécuter des
+              programmes Java
             </TableCell>
           </TableRow>
           <TableRow>
@@ -118,8 +124,12 @@ export default function Page() {
         Comment lire ce manuel
       </h2>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        <Link href="/docs/installation" className="group">
-          <Card className="h-full gap-2 py-5 transition-colors group-hover:border-primary/40">
+        <Link href="/docs/installation" className="group block h-full">
+          <Card
+            variant="interactive"
+            size="sm"
+            className="h-full p-5 hover:border-primary/40"
+          >
             <CardHeader>
               <CardTitle className="flex items-center gap-1.5 text-base">
                 1. Démarrage
@@ -131,8 +141,12 @@ export default function Page() {
             </CardHeader>
           </Card>
         </Link>
-        <Link href="/docs/variables" className="group">
-          <Card className="h-full gap-2 py-5 transition-colors group-hover:border-primary/40">
+        <Link href="/docs/variables" className="group block h-full">
+          <Card
+            variant="interactive"
+            size="sm"
+            className="h-full p-5 hover:border-primary/40"
+          >
             <CardHeader>
               <CardTitle className="flex items-center gap-1.5 text-base">
                 2. Les bases
@@ -144,8 +158,12 @@ export default function Page() {
             </CardHeader>
           </Card>
         </Link>
-        <Link href="/docs/classes" className="group">
-          <Card className="h-full gap-2 py-5 transition-colors group-hover:border-primary/40">
+        <Link href="/docs/classes" className="group block h-full">
+          <Card
+            variant="interactive"
+            size="sm"
+            className="h-full p-5 hover:border-primary/40"
+          >
             <CardHeader>
               <CardTitle className="flex items-center gap-1.5 text-base">
                 3. POO
@@ -157,8 +175,12 @@ export default function Page() {
             </CardHeader>
           </Card>
         </Link>
-        <Link href="/docs/collections" className="group">
-          <Card className="h-full gap-2 py-5 transition-colors group-hover:border-primary/40">
+        <Link href="/docs/collections" className="group block h-full">
+          <Card
+            variant="interactive"
+            size="sm"
+            className="h-full p-5 hover:border-primary/40"
+          >
             <CardHeader>
               <CardTitle className="flex items-center gap-1.5 text-base">
                 4. Aller plus loin

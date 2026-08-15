@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Manuel Java — documentation site
 
-## Getting Started
+A Next.js (App Router) static site that turns the Java manual into a modern
+documentation experience. Deployed to GitHub Pages via `output: "export"`.
 
-First, run the development server:
+## UI library — Modern UI
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The interface is built on [**Modern UI**](https://modern-ui.org/docs/), a
+shadcn/ui-inspired library that pairs Radix primitives with
+[motion](https://motion.dev) animations.
+
+Modern UI is distributed as copy-in source (like shadcn/ui), so its components
+live in the repo:
+
+```
+src/components/modern-ui/   # vendored Modern UI components
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To add another component from the library:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npx @modern-core/ui add <component>
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The CLI writes into `src/components/modern-ui/` (configured through
+`components.json`, whose `ui` alias points there). Components import `cn` from
+`@/lib/utils`.
 
-## Learn More
+### Modern UI pieces in use
 
-To learn more about Next.js, take a look at the following resources:
+| Component | Where |
+| --- | --- |
+| `button`, `badge`, `card`, `alert`, `table`, `tabs`, `accordion` | throughout the docs pages |
+| `sheet`, `scroll-area`, `tooltip`, `breadcrumb` | header, sidebar, doc chrome |
+| `command` + `dialog` | ⌘K search palette (`src/components/docs-search.tsx`) |
+| `rainbow-button`, `sparkles-text`, `animated-gradient-text`, `number-counter` | landing hero & CTA |
+| `terminal-block` | JDK install commands |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Theme tokens
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`src/app/globals.css` carries Modern UI's design tokens on top of the existing
+Tailwind v4 theme:
 
-## Deploy on Vercel
+- the `--color-1` … `--color-5` rainbow palette (raw HSL triplets, as Modern UI
+  expects — use them as `hsl(var(--color-1))`),
+- the `gradient`, `rainbow`, `accordion-down/up` keyframes the library relies
+  on, plus `shine`, `float` and `aurora` used by this site,
+- `bg-dot-pattern` and `no-scrollbar` utilities,
+- a `prefers-reduced-motion` block that neutralises all of the above.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Local edits to vendored components are marked with a comment so they survive a
+future re-sync (e.g. `asChild` support on `rainbow-button` and `breadcrumb`,
+extra `info`/`success`/`warning` variants on `alert`).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Development
+
+```bash
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # static export into ./out
+npm run lint
+```

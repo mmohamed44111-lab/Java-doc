@@ -3,7 +3,11 @@ import { LightbulbIcon } from "lucide-react";
 
 import { DocHeader } from "@/components/doc-page";
 import { CodeBlock } from "@/components/code-block";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/modern-ui/alert";
 import {
   Table,
   TableBody,
@@ -11,7 +15,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/doc-table";
 
 export const metadata: Metadata = { title: "Interfaces & abstraction" };
 
@@ -109,12 +113,20 @@ f.afficher();                        // Forme bleu, aire = 12.56...`}
         <TableBody>
           <TableRow>
             <TableCell className="font-medium">Héritage multiple</TableCell>
-            <TableCell className="whitespace-normal">✓ plusieurs interfaces</TableCell>
-            <TableCell className="whitespace-normal">✗ une seule classe</TableCell>
+            <TableCell className="whitespace-normal">
+              ✓ plusieurs interfaces
+            </TableCell>
+            <TableCell className="whitespace-normal">
+              ✗ une seule classe
+            </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className="font-medium">Attributs d&apos;instance</TableCell>
-            <TableCell className="whitespace-normal">✗ (constantes seulement)</TableCell>
+            <TableCell className="font-medium">
+              Attributs d&apos;instance
+            </TableCell>
+            <TableCell className="whitespace-normal">
+              ✗ (constantes seulement)
+            </TableCell>
             <TableCell className="whitespace-normal">✓</TableCell>
           </TableRow>
           <TableRow>
@@ -153,14 +165,15 @@ System.out.println(addition.appliquer(3, 4));  // 7
 System.out.println(maximum.appliquer(3, 4));   // 4`}
       />
 
-      <Alert className="mt-6">
-        <LightbulbIcon className="text-amber-500" />
+      <Alert variant="warning" className="mt-6">
+        <LightbulbIcon />
         <AlertTitle>Bonne pratique</AlertTitle>
         <AlertDescription>
           « Programmez vers une interface, pas vers une implémentation » :
-          déclarez <code>List&lt;String&gt; liste = new ArrayList&lt;&gt;()</code>{" "}
-          plutôt que <code>ArrayList&lt;String&gt; liste = ...</code>. Vous
-          pourrez changer d&apos;implémentation sans toucher au reste du code.
+          déclarez{" "}
+          <code>List&lt;String&gt; liste = new ArrayList&lt;&gt;()</code> plutôt
+          que <code>ArrayList&lt;String&gt; liste = ...</code>. Vous pourrez
+          changer d&apos;implémentation sans toucher au reste du code.
         </AlertDescription>
       </Alert>
     </article>

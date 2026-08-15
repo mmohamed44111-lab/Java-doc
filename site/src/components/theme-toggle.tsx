@@ -3,12 +3,16 @@
 import * as React from "react";
 import { MoonIcon, SunIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/modern-ui/button";
 
 export function ThemeToggle() {
   const [mounted, setMounted] = React.useState(false);
 
-  React.useEffect(() => setMounted(true), []);
+  React.useEffect(() => {
+    // Defer to a microtask so the initial paint isn't a cascading render.
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   const toggle = () => {
     const root = document.documentElement;

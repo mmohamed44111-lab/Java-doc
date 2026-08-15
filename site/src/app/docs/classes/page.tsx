@@ -3,8 +3,12 @@ import { InfoIcon, LightbulbIcon } from "lucide-react";
 
 import { DocHeader } from "@/components/doc-page";
 import { CodeBlock } from "@/components/code-block";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/modern-ui/alert";
+import { Badge } from "@/components/modern-ui/badge";
 import {
   Table,
   TableBody,
@@ -12,7 +16,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/doc-table";
 
 export const metadata: Metadata = { title: "Classes & objets" };
 
@@ -76,7 +80,7 @@ export default function Page() {
 }`}
       />
 
-      <Alert className="mt-2">
+      <Alert variant="info" className="mt-2">
         <InfoIcon />
         <AlertTitle>Encapsulation</AlertTitle>
         <AlertDescription>
@@ -165,8 +169,8 @@ System.out.println(p.x());       // 3
 System.out.println(p);           // Point[x=3, y=4]`}
       />
 
-      <Alert className="mt-6">
-        <LightbulbIcon className="text-amber-500" />
+      <Alert variant="warning" className="mt-6">
+        <LightbulbIcon />
         <AlertTitle>Bonne pratique</AlertTitle>
         <AlertDescription>
           Utilisez un <code>record</code> pour les objets immuables porteurs de

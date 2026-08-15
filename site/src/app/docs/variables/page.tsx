@@ -3,8 +3,12 @@ import { InfoIcon, TriangleAlertIcon } from "lucide-react";
 
 import { DocHeader } from "@/components/doc-page";
 import { CodeBlock } from "@/components/code-block";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/modern-ui/alert";
+import { Badge } from "@/components/modern-ui/badge";
 import {
   Table,
   TableBody,
@@ -12,7 +16,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/doc-table";
 
 export const metadata: Metadata = { title: "Variables & types" };
 
@@ -23,7 +27,12 @@ const primitives = [
   { type: "long", taille: "64 bits", plage: "≈ ±9,2 × 10¹⁸", defaut: "0L" },
   { type: "float", taille: "32 bits", plage: "±3,4 × 10³⁸", defaut: "0.0f" },
   { type: "double", taille: "64 bits", plage: "±1,7 × 10³⁰⁸", defaut: "0.0d" },
-  { type: "char", taille: "16 bits", plage: "caractère Unicode", defaut: "'\\u0000'" },
+  {
+    type: "char",
+    taille: "16 bits",
+    plage: "caractère Unicode",
+    defaut: "'\\u0000'",
+  },
   { type: "boolean", taille: "1 bit*", plage: "true / false", defaut: "false" },
 ];
 
@@ -51,7 +60,7 @@ var compteur = 0;                // int déduit automatiquement
 var message = "Salut";           // String déduit`}
       />
 
-      <Alert className="mt-2">
+      <Alert variant="info" className="mt-2">
         <InfoIcon />
         <AlertTitle>String n&apos;est pas un type primitif</AlertTitle>
         <AlertDescription>

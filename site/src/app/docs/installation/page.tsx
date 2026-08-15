@@ -3,14 +3,18 @@ import { CheckCircle2Icon, LightbulbIcon } from "lucide-react";
 
 import { DocHeader } from "@/components/doc-page";
 import { CodeBlock } from "@/components/code-block";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TerminalBlock } from "@/components/modern-ui/terminal-block";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/modern-ui/alert";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@/components/modern-ui/accordion";
 
 export const metadata: Metadata = { title: "Installation & premier programme" };
 
@@ -30,52 +34,25 @@ export default function Page() {
         votre système d&apos;exploitation :
       </p>
 
-      <Tabs defaultValue="windows" className="mt-4">
-        <TabsList>
-          <TabsTrigger value="windows">Windows</TabsTrigger>
-          <TabsTrigger value="macos">macOS</TabsTrigger>
-          <TabsTrigger value="linux">Linux</TabsTrigger>
-        </TabsList>
-        <TabsContent value="windows">
-          <CodeBlock
-            title="PowerShell"
-            highlight={false}
-            code={`# Avec winget (Windows 10/11)
-winget install Microsoft.OpenJDK.21
+      <div className="mt-4">
+        <TerminalBlock
+          commands={{
+            Windows: "winget install Microsoft.OpenJDK.21",
+            macOS: "brew install openjdk@21",
+            "Debian / Ubuntu":
+              "sudo apt update && sudo apt install openjdk-21-jdk",
+            Fedora: "sudo dnf install java-21-openjdk-devel",
+          }}
+        />
+      </div>
 
-# Vérifier l'installation
-java --version`}
-          />
-        </TabsContent>
-        <TabsContent value="macos">
-          <CodeBlock
-            title="Terminal"
-            highlight={false}
-            code={`# Avec Homebrew
-brew install openjdk@21
+      <p className="mt-4 leading-7 text-muted-foreground">
+        Puis vérifiez l&apos;installation :
+      </p>
+      <CodeBlock title="Terminal" highlight={false} code={`java --version`} />
 
-# Vérifier l'installation
-java --version`}
-          />
-        </TabsContent>
-        <TabsContent value="linux">
-          <CodeBlock
-            title="Terminal"
-            highlight={false}
-            code={`# Debian / Ubuntu
-sudo apt update && sudo apt install openjdk-21-jdk
-
-# Fedora
-sudo dnf install java-21-openjdk-devel
-
-# Vérifier l'installation
-java --version`}
-          />
-        </TabsContent>
-      </Tabs>
-
-      <Alert className="mt-6">
-        <CheckCircle2Icon className="text-emerald-500" />
+      <Alert variant="success" className="mt-6">
+        <CheckCircle2Icon />
         <AlertTitle>Vérification</AlertTitle>
         <AlertDescription>
           Si <code>java --version</code> affiche un numéro de version (ex :
@@ -158,8 +135,8 @@ java Bonjour
 java Bonjour.java`}
       />
 
-      <Alert className="mt-6">
-        <LightbulbIcon className="text-amber-500" />
+      <Alert variant="warning" className="mt-6">
+        <LightbulbIcon />
         <AlertTitle>Astuce</AlertTitle>
         <AlertDescription>
           Pour les vrais projets, utilisez un IDE comme IntelliJ IDEA, Eclipse
