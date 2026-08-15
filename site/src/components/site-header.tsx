@@ -2,7 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { CoffeeIcon, MenuIcon } from "lucide-react";
+import { motion } from "motion/react";
 
 function GithubIcon({ className }: { className?: string }) {
   return (
@@ -17,23 +19,59 @@ function GithubIcon({ className }: { className?: string }) {
   );
 }
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/modern-ui/button";
+import { Badge } from "@/components/modern-ui/badge";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@/components/modern-ui/sheet";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/modern-ui/tooltip";
 import { SidebarNav } from "@/components/site-sidebar";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { DocsSearch } from "@/components/docs-search";
+import { cn } from "@/lib/utils";
+import { normalizePath } from "@/lib/docs-nav";
+
+const navLinks = [
+  { href: "/docs", label: "Documentation" },
+  { href: "/docs/installation", label: "Démarrage rapide" },
+  { href: "/docs/collections", label: "Collections" },
+];
 
 export function SiteHeader() {
   const [open, setOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
+  const pathname = normalizePath(usePathname());
+
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className={cn(
+        "sticky top-0 z-40 w-full border-b border-transparent transition-all duration-300",
+        scrolled
+          ? "border-border bg-background/70 shadow-xs backdrop-blur-xl supports-[backdrop-filter]:bg-background/60"
+          : "bg-background/40 backdrop-blur-sm",
+      )}
+    >
+      {/* Modern UI style animated top accent line */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px animate-shine bg-[linear-gradient(90deg,transparent,hsl(var(--color-1)),hsl(var(--color-3)),hsl(var(--color-2)),transparent)] bg-[length:200%_auto] opacity-60"
+      />
       <div className="mx-auto flex h-14 w-full max-w-screen-2xl items-center gap-3 px-4 md:px-8">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
@@ -43,22 +81,26 @@ export function SiteHeader() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-80 p-0">
-            <SheetHeader className="border-b">
+            <SheetHeader className="border-b p-4">
               <SheetTitle className="flex items-center gap-2">
                 <CoffeeIcon className="size-5 text-primary" />
                 Manuel Java
               </SheetTitle>
             </SheetHeader>
-            <div className="px-4 pb-6 overflow-y-auto">
+            <div className="h-[calc(100svh-5rem)] overflow-y-auto px-4 pb-6">
               <SidebarNav onNavigate={() => setOpen(false)} />
             </div>
           </SheetContent>
         </Sheet>
 
-        <Link href="/" className="flex items-center gap-2 font-semibold">
-          <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
+        <Link href="/" className="group flex items-center gap-2 font-semibold">
+          <motion.span
+            whileHover={{ rotate: -8, scale: 1.08 }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
+            className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-xs"
+          >
             <CoffeeIcon className="size-4" />
-          </span>
+          </motion.span>
           <span className="hidden sm:inline">Manuel Java</span>
           <Badge variant="secondary" className="hidden sm:inline-flex">
             v1.0
@@ -66,25 +108,51 @@ export function SiteHeader() {
         </Link>
 
         <nav className="ml-6 hidden items-center gap-1 md:flex">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/docs">Documentation</Link>
-          </Button>
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/docs/installation">Démarrage rapide</Link>
-          </Button>
+          {navLinks.map((l) => {
+            const active = pathname === l.href;
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={cn(
+                  "relative rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                  active
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {active && (
+                  <motion.span
+                    layoutId="header-nav-pill"
+                    className="absolute inset-0 -z-10 rounded-md bg-accent"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
+                {l.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-1">
-          <Button variant="ghost" size="icon" asChild>
-            <a
-              href="https://github.com/mmohamed44111-lab/Java-doc"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-            >
-              <GithubIcon className="size-4" />
-            </a>
-          </Button>
+        <div className="ml-auto flex items-center gap-1.5">
+          <DocsSearch />
+          <TooltipProvider delayDuration={200}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" asChild>
+                  <a
+                    href="https://github.com/mmohamed44111-lab/Java-doc"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="GitHub"
+                  >
+                    <GithubIcon className="size-4" />
+                  </a>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Code source sur GitHub</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <ThemeToggle />
         </div>
       </div>

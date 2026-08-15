@@ -7,14 +7,64 @@ import { cn } from "@/lib/utils";
 
 /* Minimal Java / generic syntax highlighter (no external deps) */
 const JAVA_KEYWORDS = new Set([
-  "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char",
-  "class", "const", "continue", "default", "do", "double", "else", "enum",
-  "extends", "final", "finally", "float", "for", "goto", "if", "implements",
-  "import", "instanceof", "int", "interface", "long", "native", "new",
-  "package", "private", "protected", "public", "return", "short", "static",
-  "strictfp", "super", "switch", "synchronized", "this", "throw", "throws",
-  "transient", "try", "void", "volatile", "while", "var", "record", "sealed",
-  "permits", "yield", "true", "false", "null",
+  "abstract",
+  "assert",
+  "boolean",
+  "break",
+  "byte",
+  "case",
+  "catch",
+  "char",
+  "class",
+  "const",
+  "continue",
+  "default",
+  "do",
+  "double",
+  "else",
+  "enum",
+  "extends",
+  "final",
+  "finally",
+  "float",
+  "for",
+  "goto",
+  "if",
+  "implements",
+  "import",
+  "instanceof",
+  "int",
+  "interface",
+  "long",
+  "native",
+  "new",
+  "package",
+  "private",
+  "protected",
+  "public",
+  "return",
+  "short",
+  "static",
+  "strictfp",
+  "super",
+  "switch",
+  "synchronized",
+  "this",
+  "throw",
+  "throws",
+  "transient",
+  "try",
+  "void",
+  "volatile",
+  "while",
+  "var",
+  "record",
+  "sealed",
+  "permits",
+  "yield",
+  "true",
+  "false",
+  "null",
 ]);
 
 type Token = { type: string; value: string };
@@ -51,6 +101,53 @@ const TOKEN_CLASSES: Record<string, string> = {
   plain: "",
 };
 
+function renderLines(tokens: Token[] | null, code: string) {
+  const rows: React.ReactNode[] = [];
+  let current: React.ReactNode[] = [];
+  let key = 0;
+
+  const pushRow = () => {
+    rows.push(
+      <span
+        key={rows.length}
+        className="grid grid-cols-[2rem_1fr] gap-3 hover:bg-accent/40"
+      >
+        <span className="select-none text-right text-muted-foreground/40">
+          {rows.length + 1}
+        </span>
+        <span className="whitespace-pre">
+          {current.length ? current : "\u00A0"}
+        </span>
+      </span>,
+    );
+    current = [];
+  };
+
+  if (!tokens) {
+    code.split("\n").forEach((line) => {
+      current = [line];
+      pushRow();
+    });
+    return rows;
+  }
+
+  for (const token of tokens) {
+    const parts = token.value.split("\n");
+    parts.forEach((part, i) => {
+      if (i > 0) pushRow();
+      if (part) {
+        current.push(
+          <span key={key++} className={TOKEN_CLASSES[token.type]}>
+            {part}
+          </span>,
+        );
+      }
+    });
+  }
+  pushRow();
+  return rows;
+}
+
 export function CodeBlock({
   code,
   title,
@@ -82,24 +179,29 @@ export function CodeBlock({
 
   const tokens = React.useMemo(
     () => (highlight ? tokenize(code) : null),
-    [code, highlight]
+    [code, highlight],
   );
 
   return (
     <div
       className={cn(
-        "group relative my-4 overflow-hidden rounded-lg border bg-neutral-50 dark:bg-neutral-900/70",
-        className
+        "group relative my-5 overflow-hidden rounded-xl border border-border bg-background shadow-xs transition-all duration-300 hover:border-primary/30 hover:shadow-md",
+        className,
       )}
     >
-      <div className="flex items-center justify-between border-b bg-muted/60 px-4 py-2">
+      <div className="flex items-center justify-between border-b bg-muted/50 px-4 py-2">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <FileCode2Icon className="size-3.5" />
+          <span className="flex gap-1.5" aria-hidden>
+            <span className="size-2.5 rounded-full bg-red-400/70" />
+            <span className="size-2.5 rounded-full bg-amber-400/70" />
+            <span className="size-2.5 rounded-full bg-emerald-400/70" />
+          </span>
+          <FileCode2Icon className="ml-1 size-3.5" />
           <span className="font-mono">{title ?? "Java"}</span>
         </div>
         <button
           onClick={onCopy}
-          className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+          className="inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground opacity-0 transition-all duration-200 hover:bg-accent hover:text-accent-foreground focus-visible:opacity-100 group-hover:opacity-100"
           aria-label="Copier le code"
         >
           {copied ? (
@@ -113,17 +215,11 @@ export function CodeBlock({
           )}
         </button>
       </div>
-      <pre className="overflow-x-auto p-4 text-[13px] leading-relaxed">
-        <code className="font-mono">
-          {tokens
-            ? tokens.map((t, i) => (
-                <span key={i} className={TOKEN_CLASSES[t.type]}>
-                  {t.value}
-                </span>
-              ))
-            : code}
-        </code>
-      </pre>
+      <div className="relative overflow-x-auto">
+        <pre className="p-4 text-[13px] leading-relaxed">
+          <code className="grid font-mono">{renderLines(tokens, code)}</code>
+        </pre>
+      </div>
     </div>
   );
 }

@@ -3,7 +3,11 @@ import { InfoIcon, TriangleAlertIcon } from "lucide-react";
 
 import { DocHeader } from "@/components/doc-page";
 import { CodeBlock } from "@/components/code-block";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/modern-ui/alert";
 import {
   Table,
   TableBody,
@@ -11,7 +15,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/doc-table";
 
 export const metadata: Metadata = { title: "Exceptions" };
 
@@ -149,7 +153,7 @@ try (BufferedReader lecteur = new BufferedReader(new FileReader("data.txt"))) {
 }`}
       />
 
-      <Alert className="mt-6">
+      <Alert variant="info" className="mt-6">
         <InfoIcon />
         <AlertTitle>Bonnes pratiques</AlertTitle>
         <AlertDescription>

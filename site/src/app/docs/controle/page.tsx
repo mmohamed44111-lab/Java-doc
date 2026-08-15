@@ -3,8 +3,17 @@ import { LightbulbIcon } from "lucide-react";
 
 import { DocHeader } from "@/components/doc-page";
 import { CodeBlock } from "@/components/code-block";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/modern-ui/alert";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/modern-ui/tabs";
 
 export const metadata: Metadata = { title: "Structures de contrôle" };
 
@@ -155,8 +164,8 @@ do {
 // → 1, 3, 5`}
       />
 
-      <Alert className="mt-6">
-        <LightbulbIcon className="text-amber-500" />
+      <Alert variant="warning" className="mt-6">
+        <LightbulbIcon />
         <AlertTitle>Quelle boucle choisir ?</AlertTitle>
         <AlertDescription>
           <p>

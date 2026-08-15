@@ -3,9 +3,18 @@ import { LightbulbIcon } from "lucide-react";
 
 import { DocHeader } from "@/components/doc-page";
 import { CodeBlock } from "@/components/code-block";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/modern-ui/alert";
+import { Badge } from "@/components/modern-ui/badge";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/modern-ui/tabs";
 import {
   Table,
   TableBody,
@@ -13,12 +22,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/doc-table";
 
 export const metadata: Metadata = { title: "Collections" };
 
 const impls = [
-  ["List", "ArrayList", "Liste ordonnée, doublons autorisés, accès rapide par index"],
+  [
+    "List",
+    "ArrayList",
+    "Liste ordonnée, doublons autorisés, accès rapide par index",
+  ],
   ["List", "LinkedList", "Insertion/suppression rapides en tête et en queue"],
   ["Set", "HashSet", "Éléments uniques, sans ordre garanti, très rapide"],
   ["Set", "TreeSet", "Éléments uniques, triés automatiquement"],
@@ -151,8 +164,8 @@ System.out.println(resultat);  // [SALMA, SARA]
 long total = noms.stream().filter(n -> n.length() > 4).count(); // 3`}
       />
 
-      <Alert className="mt-6">
-        <LightbulbIcon className="text-amber-500" />
+      <Alert variant="warning" className="mt-6">
+        <LightbulbIcon />
         <AlertTitle>Quelle collection choisir ?</AlertTitle>
         <AlertDescription>
           <p>
